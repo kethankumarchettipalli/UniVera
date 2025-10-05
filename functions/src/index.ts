@@ -3,9 +3,8 @@ import * as admin from "firebase-admin";
 import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/generative-ai";
 
 admin.initializeApp();
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
-// WARNING: INSECURE - Hardcoding the API key directly in the code.
-const GEMINI_API_KEY = "AIzaSyBdbTN_Sux72DzJg8J2OkVjQj6HwQw3h3w";
 
 if (!GEMINI_API_KEY) {
   console.error("Gemini API Key is not set.");
@@ -13,18 +12,29 @@ if (!GEMINI_API_KEY) {
 
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 
-// System instruction to guide the AI's behavior
+// IMPORTANT: Use 'user' for system-like instructions (the API uses only user/model roles)
 const systemInstruction = {
-  role: "user",
+  role: 'user',
   parts: [{
-    text: "You are UniVera, a friendly and helpful AI assistant for a platform that helps students in India find colleges and accommodations (PGs/Hostels). Your goal is to assist users by answering their questions about colleges, fees, placements, locations, and suitable accommodations. Keep your responses concise, helpful, and relevant to the Indian education context. Do not answer questions unrelated to education, colleges, or student life in India.",
-  }],
+    text: `You are UniVera — a friendly, concise, and helpful AI assistant for students in India. 
+Your job is to answer questions about colleges, PG/hostels, admissions, placements, fees, career guidance, and motivation in a supportive and India-focused way.
+Rules:
+1. You do not have live data or external APIs. If a user asks for cutoffs, current admissions, or real-time hostel availability, respond positively with the best general guidance you can, then suggest checking the official college website or notice for confirmation.
+2. Always answer in a constructive and encouraging tone. Never say "I don't know" directly. Instead, use phrases like "According to typical records…", "Usually…", or "You can confirm the latest details on the official site."
+3. Do not invent specific numbers, rankings, or dates unless provided in your context. When giving approximate information, clearly frame it as "typical" or "general."
+4. Provide short, clear answers (2–5 sentences). Offer more details, resources, or next steps if the user asks.
+5. Career guidance and motivation are allowed: give practical advice and short supportive messages when relevant.
+6. If a question is unrelated to education or careers, politely refuse and redirect.
+7. Always use INR (₹) when mentioning fees.`
+  }]
 };
 
+// Reply seed should use role 'model' for the assistant greeting
 const systemResponse = {
-  role: "model",
+  role: 'model',
   parts: [{ text: "Hello! I'm UniVera, your AI assistant. How can I help you find the perfect college or accommodation today?" }],
 };
+
 
 export const callGemini = functions.https.onCall(async (data, context) => {
   // Ensure the user is authenticated to use the function
