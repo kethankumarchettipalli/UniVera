@@ -1,0 +1,28 @@
+{
+  "hosting": {
+    "public": "dist",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/delete-data",
+        "destination": "/../delete-data/index.html"
+      },
+      {
+        "source": "/privacy.html",
+        "destination": "/../privacy.html"
+      },
+      {
+        "source": "/terms.html",
+        "destination": "/../terms.html"
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
