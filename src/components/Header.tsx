@@ -1,9 +1,18 @@
 // src/components/Header.tsx
-import React, { useState } from 'react';
-import { GraduationCap, Menu, X, Heart, LogOut, Settings, LogIn } from 'lucide-react';
-import { useAuth } from '../hooks/useAuth';
-import LoginPage from './auth/LoginPage';
-import UserProfile from './auth/UserProfile';
+import React, { useState } from "react";
+import {
+  GraduationCap,
+  Menu,
+  X,
+  Heart,
+  LogOut,
+  Settings,
+  LogIn,
+  MessageCircle,
+} from "lucide-react";
+import { useAuth } from "../hooks/useAuth";
+import LoginPage from "./auth/LoginPage";
+import UserProfile from "./auth/UserProfile";
 
 interface HeaderProps {
   activeTab: string;
@@ -15,6 +24,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showUserProfile, setShowUserProfile] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [showChatbot, setShowChatbot] = useState(false);
 
   const { user, userProfile, logout } = useAuth();
 
@@ -23,11 +33,11 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
     (userProfile?.favorites?.pgs?.length || 0);
 
   const navItems = [
-    { id: 'home', label: 'Home' },
-    { id: 'colleges', label: 'Find Colleges' },
-    { id: 'accommodations', label: 'Find PG/Hostels' },
-    { id: 'compare', label: 'Compare' },
-    { id: 'about', label: 'About' },
+    { id: "home", label: "Home" },
+    { id: "colleges", label: "Find Colleges" },
+    { id: "accommodations", label: "Find PG/Hostels" },
+    { id: "compare", label: "Compare" },
+    { id: "about", label: "About" },
   ];
 
   const handleLogout = async () => {
@@ -47,7 +57,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
             {/* Logo */}
             <div
               className="flex items-center space-x-2 cursor-pointer"
-              onClick={() => setActiveTab('home')}
+              onClick={() => setActiveTab("home")}
             >
               <div className="bg-gradient-to-r from-saffron-500 to-gold-500 p-2 rounded-lg">
                 <GraduationCap className="h-8 w-8 text-white" />
@@ -70,8 +80,8 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
                   onClick={() => setActiveTab(item.id)}
                   className={`px-3 py-2 rounded-lg font-medium transition-all duration-200 ${
                     activeTab === item.id
-                      ? 'bg-gradient-to-r from-saffron-500 to-gold-500 text-white shadow-md'
-                      : 'text-gray-700 hover:text-saffron-600 hover:bg-saffron-50'
+                      ? "bg-gradient-to-r from-saffron-500 to-gold-500 text-white shadow-md"
+                      : "text-gray-700 hover:text-saffron-600 hover:bg-saffron-50"
                   }`}
                 >
                   {item.label}
@@ -83,7 +93,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
             <div className="hidden md:flex items-center space-x-4">
               {/* Favorites */}
               <button
-                onClick={() => setActiveTab('favorites')}
+                onClick={() => setActiveTab("favorites")}
                 className="relative p-2 text-gray-600 hover:text-saffron-600 hover:bg-saffron-50 rounded-lg transition-colors"
               >
                 <Heart className="h-5 w-5" />
@@ -102,7 +112,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
                     className="flex items-center space-x-2"
                   >
                     <span className="max-w-24 truncate font-medium">
-                      {userProfile?.displayName || 'User'}
+                      {userProfile?.displayName || "User"}
                     </span>
                   </button>
 
@@ -143,7 +153,11 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="md:hidden p-2 text-gray-600"
             >
-              {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {isMobileMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
             </button>
           </div>
         </div>
@@ -161,8 +175,8 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
                   }}
                   className={`w-full text-left px-3 py-2 rounded-lg font-medium transition-all duration-200 ${
                     activeTab === item.id
-                      ? 'bg-gradient-to-r from-saffron-500 to-gold-500 text-white shadow-md'
-                      : 'text-gray-700 hover:text-saffron-600 hover:bg-saffron-50'
+                      ? "bg-gradient-to-r from-saffron-500 to-gold-500 text-white shadow-md"
+                      : "text-gray-700 hover:text-saffron-600 hover:bg-saffron-50"
                   }`}
                 >
                   {item.label}
@@ -172,13 +186,13 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
               {/* Favorites in mobile */}
               <button
                 onClick={() => {
-                  setActiveTab('favorites');
+                  setActiveTab("favorites");
                   setIsMobileMenuOpen(false);
                 }}
                 className={`w-full text-left px-3 py-2 rounded-lg font-medium transition-all duration-200 ${
-                  activeTab === 'favorites'
-                    ? 'bg-gradient-to-r from-saffron-500 to-gold-500 text-white shadow-md'
-                    : 'text-gray-700 hover:text-saffron-600 hover:bg-saffron-50'
+                  activeTab === "favorites"
+                    ? "bg-gradient-to-r from-saffron-500 to-gold-500 text-white shadow-md"
+                    : "text-gray-700 hover:text-saffron-600 hover:bg-saffron-50"
                 }`}
               >
                 Favorites
@@ -228,22 +242,65 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
           </div>
         )}
 
-        {/* Floating circular mobile Login button */}
-        {!isMobileMenuOpen && !user && (
-          <button
-            onClick={() => setShowLoginModal(true)}
-            className="md:hidden fixed right-4 bottom-20 z-50 bg-gradient-to-r from-saffron-500 to-gold-500 text-white h-12 w-12 rounded-full shadow-lg flex items-center justify-center"
-            aria-label="Login"
-          >
-            <LogIn className="h-6 w-6" />
-          </button>
+        {/* --- Stacked floating actions for mobile --- */}
+        {!isMobileMenuOpen && (
+          <div className="md:hidden fixed right-4 bottom-4 z-50 flex flex-col gap-3 items-center">
+            {/* Login button */}
+            {!user && (
+              <button
+                onClick={() => setShowLoginModal(true)}
+                className="bg-gradient-to-r from-saffron-500 to-gold-500 text-white h-11 w-11 rounded-full shadow-lg flex items-center justify-center transition hover:scale-105"
+                aria-label="Login"
+              >
+                <LogIn className="h-5 w-5" />
+              </button>
+            )}
+
+            {/* Chatbot button */}
+            <button
+              onClick={() => setShowChatbot(!showChatbot)}
+              className="bg-yellow-400 text-white h-11 w-11 rounded-full shadow-lg flex items-center justify-center transition hover:scale-105"
+              aria-label="Chatbot"
+            >
+              <MessageCircle className="h-5 w-5" />
+            </button>
+          </div>
         )}
       </header>
 
       {/* Modals */}
       {showLoginModal && <LoginPage onClose={() => setShowLoginModal(false)} />}
       {showUserProfile && <UserProfile onClose={() => setShowUserProfile(false)} />}
-      {showUserMenu && <div className="fixed inset-0 z-40" onClick={() => setShowUserMenu(false)} />}
+      {showUserMenu && (
+        <div
+          className="fixed inset-0 z-40"
+          onClick={() => setShowUserMenu(false)}
+        />
+      )}
+
+      {/* Chatbot modal (optional) */}
+      {showChatbot && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          onClick={() => setShowChatbot(false)}
+        >
+          <div
+            className="bg-white rounded-lg p-4 max-w-sm w-11/12 shadow-lg"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="text-lg font-semibold mb-2">Chatbot</h2>
+            <p className="text-sm text-gray-600">
+              (Your chatbot interface or component will go here)
+            </p>
+            <button
+              onClick={() => setShowChatbot(false)}
+              className="mt-3 bg-saffron-500 text-white px-3 py-1 rounded-md"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 };
