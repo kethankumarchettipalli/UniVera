@@ -3,6 +3,13 @@ import { Users, Target, Award, Heart, Mail, Phone, MapPin } from 'lucide-react';
 
 const AboutPage: React.FC = () => {
    const team = [
+     {
+      name: 'Issac Abhilash',
+      role: 'UI/UX Designer',
+      image: 'https://img.freepik.com/premium-vector/professional-design-background-business-vector-illustration-banner-office-card-concept-day_1013341-242058.jpg',
+      description:
+        'AI and machine learning specialist focused on creating intelligent education recommendation systems.',
+    },
     {
       name: 'Kethan Kumar',
       role: 'Full-Stack Developer',
@@ -17,13 +24,7 @@ const AboutPage: React.FC = () => {
       description:
         'Expert in accommodation services and student welfare with deep understanding of student needs.',
     },
-    {
-      name: 'Issac Abhilash',
-      role: 'UI/UX Designer',
-      image: 'https://img.freepik.com/premium-vector/professional-design-background-business-vector-illustration-banner-office-card-concept-day_1013341-242058.jpg',
-      description:
-        'AI and machine learning specialist focused on creating intelligent education recommendation systems.',
-    },
+   
     {
       name: 'Anil Kumar',
       role: 'Debugger',
