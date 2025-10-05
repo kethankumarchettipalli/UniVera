@@ -242,30 +242,18 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
           </div>
         )}
 
-        {/* --- Stacked floating actions for mobile --- */}
-        {!isMobileMenuOpen && (
-          <div className="md:hidden fixed right-4 bottom-4 z-50 flex flex-col gap-3 items-center">
-            {/* Login button */}
-            {!user && (
-              <button
-                onClick={() => setShowLoginModal(true)}
-                className="bg-gradient-to-r from-saffron-500 to-gold-500 text-white h-11 w-11 rounded-full shadow-lg flex items-center justify-center transition hover:scale-105"
-                aria-label="Login"
-              >
-                <LogIn className="h-5 w-5" />
-              </button>
-            )}
+        {/* --- Mobile: single floating Login button (keeps chatbot as-is) --- */}
+{!isMobileMenuOpen && !user && (
+  <button
+    onClick={() => setShowLoginModal(true)}
+    className="md:hidden fixed right-4 bottom-24 z-50 bg-gradient-to-r from-saffron-500 to-gold-500 text-white h-12 w-12 rounded-full shadow-xl flex items-center justify-center transform transition hover:-translate-y-0.5 hover:scale-105"
+    aria-label="Login"
+    title="Login"
+  >
+    <LogIn className="h-6 w-6" />
+  </button>
+)}
 
-            {/* Chatbot button */}
-            <button
-              onClick={() => setShowChatbot(!showChatbot)}
-              className="bg-yellow-400 text-white h-11 w-11 rounded-full shadow-lg flex items-center justify-center transition hover:scale-105"
-              aria-label="Chatbot"
-            >
-              <MessageCircle className="h-5 w-5" />
-            </button>
-          </div>
-        )}
       </header>
 
       {/* Modals */}
