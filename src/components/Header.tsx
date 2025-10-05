@@ -1,6 +1,6 @@
 // src/components/Header.tsx
 import React, { useState } from 'react';
-import { GraduationCap, Menu, X, Heart, LogOut, Settings } from 'lucide-react';
+import { GraduationCap, Menu, X, Heart, LogOut, Settings, LogIn } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import LoginPage from './auth/LoginPage';
 import UserProfile from './auth/UserProfile';
@@ -22,7 +22,6 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
     (userProfile?.favorites?.colleges?.length || 0) +
     (userProfile?.favorites?.pgs?.length || 0);
 
-  // nav items (favorites REMOVED here)
   const navItems = [
     { id: 'home', label: 'Home' },
     { id: 'colleges', label: 'Find Colleges' },
@@ -36,7 +35,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
       await logout();
       setShowUserMenu(false);
     } catch (error) {
-      // Error handled in useAuth hook
+      // handled in useAuth
     }
   };
 
@@ -63,7 +62,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
               </div>
             </div>
 
-            {/* Desktop Navigation */}
+            {/* Desktop Nav */}
             <nav className="hidden md:flex space-x-8">
               {navItems.map((item) => (
                 <button
@@ -80,9 +79,9 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
               ))}
             </nav>
 
-            {/* Right-side actions (desktop only) */}
+            {/* Right (desktop only) */}
             <div className="hidden md:flex items-center space-x-4">
-              {/* Favorites (Heart) button */}
+              {/* Favorites */}
               <button
                 onClick={() => setActiveTab('favorites')}
                 className="relative p-2 text-gray-600 hover:text-saffron-600 hover:bg-saffron-50 rounded-lg transition-colors"
@@ -170,7 +169,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
                 </button>
               ))}
 
-              {/* Favorites in mobile menu */}
+              {/* Favorites in mobile */}
               <button
                 onClick={() => {
                   setActiveTab('favorites');
@@ -190,7 +189,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
                 )}
               </button>
 
-              {/* User / Login in mobile menu */}
+              {/* User / Login */}
               {user ? (
                 <>
                   <button
@@ -229,14 +228,14 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
           </div>
         )}
 
-        {/* Floating mobile login button (visible only on small screens when menu is closed) */}
+        {/* Floating circular mobile Login button */}
         {!isMobileMenuOpen && !user && (
           <button
             onClick={() => setShowLoginModal(true)}
-            className="md:hidden fixed right-4 bottom-4 z-50 bg-gradient-to-r from-saffron-500 to-gold-500 text-white px-4 py-2 rounded-full shadow-lg"
+            className="md:hidden fixed right-4 bottom-20 z-50 bg-gradient-to-r from-saffron-500 to-gold-500 text-white h-12 w-12 rounded-full shadow-lg flex items-center justify-center"
             aria-label="Login"
           >
-            Login
+            <LogIn className="h-6 w-6" />
           </button>
         )}
       </header>
