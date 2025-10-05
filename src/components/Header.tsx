@@ -31,7 +31,6 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
     { id: 'about', label: 'About' },
   ];
 
-
   const handleLogout = async () => {
     try {
       await logout();
@@ -81,7 +80,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
               ))}
             </nav>
 
-            {/* Right-side actions */}
+            {/* Right-side actions (desktop only) */}
             <div className="hidden md:flex items-center space-x-4">
               {/* Favorites (Heart) button */}
               <button
@@ -145,11 +144,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="md:hidden p-2 text-gray-600"
             >
-              {isMobileMenuOpen ? (
-                <X className="h-6 w-6" />
-              ) : (
-                <Menu className="h-6 w-6" />
-              )}
+              {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
           </div>
         </div>
@@ -194,22 +189,62 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
                   </span>
                 )}
               </button>
+
+              {/* User / Login in mobile menu */}
+              {user ? (
+                <>
+                  <button
+                    onClick={() => {
+                      setShowUserProfile(true);
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="w-full text-left px-3 py-2 rounded-lg font-medium text-gray-700 hover:bg-gray-50 flex items-center"
+                  >
+                    <Settings className="h-4 w-4 mr-2" />
+                    Account Settings
+                  </button>
+                  <button
+                    onClick={() => {
+                      handleLogout();
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="w-full text-left px-3 py-2 rounded-lg font-medium text-red-600 hover:bg-red-50 flex items-center"
+                  >
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Sign Out
+                  </button>
+                </>
+              ) : (
+                <button
+                  onClick={() => {
+                    setShowLoginModal(true);
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="w-full text-left px-3 py-2 rounded-lg font-medium bg-gradient-to-r from-saffron-500 to-gold-500 text-white"
+                >
+                  Login
+                </button>
+              )}
             </nav>
           </div>
+        )}
+
+        {/* Floating mobile login button (visible only on small screens when menu is closed) */}
+        {!isMobileMenuOpen && !user && (
+          <button
+            onClick={() => setShowLoginModal(true)}
+            className="md:hidden fixed right-4 bottom-4 z-50 bg-gradient-to-r from-saffron-500 to-gold-500 text-white px-4 py-2 rounded-full shadow-lg"
+            aria-label="Login"
+          >
+            Login
+          </button>
         )}
       </header>
 
       {/* Modals */}
       {showLoginModal && <LoginPage onClose={() => setShowLoginModal(false)} />}
-      {showUserProfile && (
-        <UserProfile onClose={() => setShowUserProfile(false)} />
-      )}
-      {showUserMenu && (
-        <div
-          className="fixed inset-0 z-40"
-          onClick={() => setShowUserMenu(false)}
-        />
-      )}
+      {showUserProfile && <UserProfile onClose={() => setShowUserProfile(false)} />}
+      {showUserMenu && <div className="fixed inset-0 z-40" onClick={() => setShowUserMenu(false)} />}
     </>
   );
 };
